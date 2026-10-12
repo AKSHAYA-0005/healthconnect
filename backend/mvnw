@@ -1,0 +1,12 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Maven Start Up Shell Script for HEALTHCONNECT
+# ----------------------------------------------------------------------------
+DIRNAME=$(dirname "$0")
+
+if [ -f "$DIRNAME/.mvn/apache-maven-3.9.6/bin/mvn" ]; then
+    chmod +x "$DIRNAME/.mvn/apache-maven-3.9.6/bin/mvn"
+    exec "$DIRNAME/.mvn/apache-maven-3.9.6/bin/mvn" "$@"
+fi
+
+exec mvn "$@"

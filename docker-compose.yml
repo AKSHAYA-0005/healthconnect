@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: healthconnect-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: healthconnect_db
+      MYSQL_USER: healthuser
+      MYSQL_PASSWORD: healthpass
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - healthconnect-net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u healthuser -phealthpass || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: healthconnect-backend
+    restart: always
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/healthconnect_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USER: healthuser
+      DB_PASSWORD: healthpass
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      DB_DIALECT: org.hibernate.dialect.MySQLDialect
+      APP_EMERGENCY_NUMBER: "112"
+    ports:
+      - "8080:8080"
+    networks:
+      - healthconnect-net
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: healthconnect-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    networks:
+      - healthconnect-net
+    depends_on:
+      backend:
+        condition: service_healthy
+
+networks:
+  healthconnect-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

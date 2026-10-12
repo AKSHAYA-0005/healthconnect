@@ -1,0 +1,99 @@
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --bg-gradient: radial-gradient(circle at 50% 0%, #20242e 0%, #12141a 45%, #07080a 100%);
+  --card-bg: rgba(20, 23, 29, 0.78);
+  --card-border: rgba(160, 174, 192, 0.22);
+  --glass-glow: rgba(148, 163, 184, 0.15);
+
+  --primary: #94a3b8;
+  --primary-hover: #cbd5e1;
+  --secondary: #64748b;
+  --accent: #e2e8f0;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+
+  --urgency-low-bg: rgba(16, 185, 129, 0.18);
+  --urgency-low-text: #34d399;
+  --urgency-low-border: rgba(52, 211, 153, 0.35);
+
+  --urgency-med-bg: rgba(245, 158, 11, 0.18);
+  --urgency-med-text: #fbbf24;
+  --urgency-med-border: rgba(251, 191, 36, 0.35);
+
+  --urgency-high-bg: rgba(244, 63, 94, 0.22);
+  --urgency-high-text: #fb7185;
+  --urgency-high-border: rgba(251, 113, 133, 0.45);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.65);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+/* Glassmorphism Card Utility */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(203, 213, 225, 0.4);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(10, 12, 16, 0.9);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(203, 213, 225, 0.6);
+}

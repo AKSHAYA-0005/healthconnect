@@ -1,0 +1,33 @@
+services:
+  # Backend Spring Boot Service
+  - type: web
+    name: healthconnect-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: APP_EMERGENCY_NUMBER
+        value: "112"
+
+  # Frontend React (Vite) Static Site
+  - type: static
+    name: healthconnect-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: healthconnect-backend
+          envVarKey: RENDER_EXTERNAL_URL
