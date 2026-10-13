@@ -15,7 +15,7 @@ services:
         value: "112"
 
   # Frontend React (Vite) Static Site
-  - type: static
+  - type: web
     name: healthconnect-frontend
     runtime: static
     rootDir: frontend
